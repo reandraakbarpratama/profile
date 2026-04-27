@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio Saya</title>
+
+  <style>
+    :root {
+      --primary: #00f2ff;
+      --secondary: #ff00ff;
+      --bg-dark: #050510;
+      --card-bg: rgba(255, 255, 255, 0.07);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      color: white;
+      overflow-x: hidden;
+      background: radial-gradient(circle at top, #0f0f2a 0%, #050510 40%, #000000 100%);
+      background-attachment: fixed;
+    }
+
+    /* Latar Belakang Animasi */
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      filter: blur(140px);
+      opacity: 0.2;
+      z-index: -1;
+      border-radius: 50%;
+    }
+
+    body::before {
+      background: var(--primary);
+      top: -200px;
+      left: -200px;
+      animation: orbit 20s linear infinite;
+    }
+
+    body::after {
+      background: var(--secondary);
+      bottom: -200px;
+      right: -200px;
+      animation: orbit 25s linear infinite reverse;
+    }
+
+    @keyframes orbit {
+      from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+    }
+
+    .background-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+    }
+
+    /* Navigasi */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background: rgba(15, 15, 30, 0.6);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    nav a:hover, nav a.active {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    nav a.active {
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
+    }
+
+    /* Konten Utama */
+    main {
+      padding-top: 100px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-bottom: 50px;
+    }
+
+    section {
+      display: none;
+      animation: fadeIn 0.6s ease-out forwards;
+      padding: 20px;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #fff, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+
+    /* Kartu & Container */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: wrap;
+      gap: 25px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 450px;
+      padding: 40px;
+      border-radius: 24px;
+      background: var(--card-bg);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(0, 242, 255, 0.3);
+    }
+
+    .profile-header {
+      margin-bottom: 30px;
+    }
+
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid var(--primary);
+      object-fit: cover;
+      margin: 0 auto 20px;
+      display: block;
+      box-shadow: 0 0 25px rgba(0, 242, 255, 0.4);
+      background: #1a1a2e;
+    }
+
+    .info {
+      text-align: left;
+      background: rgba(0,0,0,0.2);
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 20px;
+    }
+
+    .info p {
+      margin-bottom: 12px;
+      font-size: 15px;
+      color: rgba(255,255,255,0.8);
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 8px;
+    }
+
+    .info p:last-child { border: none; }
+
+    .info span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Tombol Khusus */
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 12px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 0, 255, 0.4);
+      filter: brightness(1.1);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(0, 242, 255, 0.1);
+      color: white;
+    }
+
+    /* Kotak Proyek */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      width: 100%;
+    }
+
+    .box {
+      padding: 30px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      color: white;
+    }
+
+    .box::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--primary);
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .box:hover {
+      transform: translateY(-10px);
+      background: rgba(255,255,255,0.12);
+      border-color: var(--primary);
+    }
+
+    .box:hover::before { opacity: 1; }
+
+    .box h3 {
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .box p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 8px;
+      background: rgba(0, 242, 255, 0.1);
+      color: var(--primary);
+      border-radius: 4px;
+      margin-top: 15px;
+    }
+
+    /* Notifikasi Custom */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
+      border: 1px solid var(--primary);
+      transition: 0.5s;
+      z-index: 1000;
+      opacity: 0;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Modal / Popup Form */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: #0f0f2a;
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid var(--primary);
+    }
+
+    .modal-content h3 { margin-bottom: 20px; text-align: center; }
+
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; font-size: 12px; margin-bottom: 5px; color: var(--primary); }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      color: white;
+      outline: none;
+    }
+
+    .input-group input:focus { border-color: var(--primary); }
+
+    /* Responsif */
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      nav { width: 90%; padding: 5px; gap: 5px; }
+      nav a { padding: 8px 12px; font-size: 12px; }
+      .card { padding: 25px; }
+    }
+
+    /* Link Style */
+    .contact-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .contact-link:hover {
+      text-decoration: underline;
+      filter: brightness(1.2);
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="background-grid"></div>
+
+<!-- NAVIGASI -->
+<nav id="navbar">
+  <a onclick="showPage('home')" class="active">Beranda</a>
+  <a onclick="showPage('profile')">Profil</a>
+  <a onclick="showPage('project')">Proyek</a>
+  <a onclick="showPage('contact')">Kontak</a>
+</nav>
+
+<main>
+  <!-- HOME -->
+  <section id="home" class="active">
+    <h1>Hello World, I'm Reandra! 💻</h1>
+    <p style="text-align: center; color: rgba(255,255,255,0.7); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+      Seorang <b>Mahasiswa Teknik Informatika</b> yang antusias dalam <i>Full-stack Web Development</i> dan eksplorasi teknologi terbaru. 
+      Berfokus pada pembuatan kode yang bersih, efisien, dan solusi digital yang inovatif.
+    </p>
+    
+    <div style="margin-top: 50px; display: flex; justify-content: center;">
+       <div class="card" style="max-width: 600px; text-align: center;">
+          <code style="color: var(--primary); font-size: 0.9rem; display: block; margin-bottom: 15px;">
+            while(alive) { eat(); code(); sleep(); repeat(); }
+          </code>
+          <p style="font-style: italic; color: rgba(255,255,255,0.6);">"Mengubah baris kode menjadi solusi nyata untuk masalah dunia."</p>
+          <div class="btn-group" style="justify-content: center; width: 220px; margin: 20px auto 0;">
+            <button onclick="showPage('project')">Lihat Repository</button>
+          </div>
+       </div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="profile">
+    <div class="container">
+      <div class="card">
+        <div class="profile-header">
+          <img id="fotoProfile" src="gg.jpeg" alt="Foto Profil Reandra" class="profile-img" onerror="this.src='https://via.placeholder.com/150/1a1a2e/00f2ff?text=User'">
+          <h2 style="text-align: center;">Profil Mahasiswa IT</h2>
+        </div>
+
+        <div class="info">
+          <p>Nama <span id="nama">Reandra Akbar Pratama</span></p>
+          <p>Alamat <span id="alamat">Indonesia</span></p>
+          <p>NPM <span id="npm">24105111014</span></p>
+        </div>
+
+        <div class="btn-group">
+          <button onclick="openModal()">Edit Data</button>
+          <button class="btn-outline" onclick="triggerUpload()">Ganti Foto</button>
+        </div>
+        <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="gantiFoto(event)">
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT -->
+  <section id="project">
+    <h2 style="text-align: center; margin-bottom: 30px;">Proyek Unggulan</h2>
+    <div class="project-grid">
+      
+      <!-- Proyek Desa -->
+      <a href="https://reandraakbarpratama.github.io/ProjectDesa/" target="_blank" class="box" onclick="showToast('Membuka Project Desa...')">
+        <h3>🏡 Project Desa</h3>
+        <p>Sistem informasi atau profil desa yang dirancang untuk memudahkan akses informasi publik bagi masyarakat desa secara digital.</p>
+        <div class="tag">HTML / CSS / GitHub Pages</div>
+      </a>
+
+      <!-- Toko Online -->
+      <a href="https://reandraakbarpratama.github.io/Online-Store/" target="_blank" class="box" onclick="showToast('Membuka Online Store Demo...')">
+        <h3>🛍️ Online Store</h3>
+        <p>Platform toko online responsif dengan katalog produk yang menarik. Lihat hasil akhir proyek secara langsung.</p>
+        <div class="tag">HTML / CSS / JS / Demo Live</div>
+      </a>
+      
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="card">
+        <h2 style="margin-bottom: 20px;">Mari Terhubung</h2>
+        <p style="margin-bottom: 25px; color: rgba(255,255,255,0.6);">Tertarik untuk kolaborasi atau sekadar berdiskusi tentang teknologi? Saya sangat terbuka!</p>
+        
+        <div class="info">
+          <p>GitHub <a href="https://github.com/reandraakbarpratama" target="_blank" class="contact-link">@reandraakbarpratama</a></p>
+          <p>Email <a href="mailto:reandraakbarpratamaxtkj@gmail.com" class="contact-link">reandraakbarpratamaxtkj@gmail.com</a></p>
+          <p>WhatsApp <a href="https://wa.me/6281260403448" target="_blank" class="contact-link">0812-6040-3448</a></p>
+          <p>Instagram <a href="https://instagram.com/reandraakbarr_" target="_blank" class="contact-link">@reandraakbarr_</a></p>
+        </div>
+
+        <button style="margin-top: 20px;" onclick="window.open('https://wa.me/6281260403448', '_blank')">Ping Me on WhatsApp</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MODAL EDIT -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <h3>Edit Informasi Profil</h3>
+    <div class="input-group">
+      <label>Nama Lengkap</label>
+      <input type="text" id="editNama">
+    </div>
+    <div class="input-group">
+      <label>Alamat</label>
+      <input type="text" id="editAlamat">
+    </div>
+    <div class="input-group">
+      <label>NPM</label>
+      <input type="text" id="editNPM">
+    </div>
+    <div class="btn-group">
+      <button onclick="simpanData()">Simpan</button>
+      <button class="btn-outline" onclick="closeModal()">Batal</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast">Notifikasi muncul di sini</div>
+
+<script>
+  // Fungsi Pindah Halaman
+  function showPage(pageId) {
+    document.querySelectorAll("nav a").forEach(a => {
+      a.classList.remove("active");
+      if(a.getAttribute("onclick").includes(pageId)) a.classList.add("active");
+    });
+
+    document.querySelectorAll("section").forEach(s => {
+      s.classList.remove("active");
+    });
+    document.getElementById(pageId).classList.add("active");
+    
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  // Toast Notification
+  function showToast(msg) {
+    const toast = document.getElementById("toast");
+    toast.innerText = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 3000);
+  }
+
+  // Logika Modal
+  function openModal() {
+    document.getElementById("editNama").value = document.getElementById("nama").innerText;
+    document.getElementById("editAlamat").value = document.getElementById("alamat").innerText;
+    document.getElementById("editNPM").value = document.getElementById("npm").innerText;
+    document.getElementById("editModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("editModal").style.display = "none";
+  }
+
+  function simpanData() {
+    const n = document.getElementById("editNama").value;
+    const a = document.getElementById("editAlamat").value;
+    const npm = document.getElementById("editNPM").value;
+
+    if(n) document.getElementById("nama").innerText = n;
+    if(a) document.getElementById("alamat").innerText = a;
+    if(npm) document.getElementById("npm").innerText = npm;
+
+    closeModal();
+    showToast("Data profil berhasil diperbarui!");
+  }
+
+  // Logika Foto
+  function triggerUpload() {
+    document.getElementById("fileInput").click();
+  }
+
+  function gantiFoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("fotoProfile").src = e.target.result;
+        showToast("Foto profil berhasil diunggah!");
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById("editModal");
+    if (event.target == modal) closeModal();
+  }
+</script>
+
+</body>
+</html>
